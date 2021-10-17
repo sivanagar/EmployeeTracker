@@ -9,5 +9,5 @@ inquirer.prompt([{
     name: 'action'
 }])
     .then((data) => {
-        console.log(date)
+        console.log(data)
     })
