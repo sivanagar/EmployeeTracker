@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/sivanagar/EmployeeTracker#readme",
   "dependencies": {
-    "cli-table": "^0.3.6",
     "console.table": "^0.10.0",
     "inquirer": "^8.2.0",
     "mysql2": "^2.3.2"
