@@ -97,8 +97,7 @@ function addRole(departmentList) {
     ]).then((data) => {
         let role = new Role(data.title,data.salary , data.department)
         role.save()
-            .then(role => console.log(role))
-            promptMenu();
+            .then(role => promptMenu())
     }); 
 }
 

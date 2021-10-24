@@ -13,7 +13,6 @@ class Role {
             VALUES ('${this.title}', '${this.salary}', ${this.department_id})
         `
         const [newRole, _]= await db.execute(sql);
-        console.log("added role")
         return newRole;
     }
 
