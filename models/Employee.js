@@ -34,6 +34,12 @@ class Employee {
         const [result,_] = await db.execute(sql);
         return result;
     }
+
+    static async updateRole(role_id, employee_id) {
+        const sql = `UPDATE employees SET role_id =${role_id} WHERE id=${employee_id};`;
+        const [result,_] = await db.execute(sql);
+        return result;
+    }
 }
 
 module.exports = Employee;

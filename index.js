@@ -177,7 +177,7 @@ function addEmployee(roleList) {
         choices: roleList
     },{
         type: 'input',
-        message: 'please enter employee manager id number if exists',
+        message: 'please enter employee manager id number if exists',//by id- no list
         name: 'manager'
     }
     ]).then(data => {
@@ -188,6 +188,28 @@ function addEmployee(roleList) {
                 promptMenu();
             })
     })
+}
+
+function updateEmployeeRole (roleList,employeeList) {
+    inquirer.prompt([{
+        type:'list',
+        message: 'Please select Employee to update',
+        name: 'employee',
+        choices: employeeList
+        },{
+        type:'list',
+        message: 'Please select role for this employee',
+        name: 'role',
+        choices: roleList
+        }])
+    .then(data => {
+        Employee.updateRole(data.role,data.employee)
+        .then(employee => {
+            console.log("Employee Updated Successfully")
+            promptMenu();
+        })
+    })
+
 }
 
 function promptMenu() {
@@ -206,9 +228,6 @@ function promptMenu() {
             new inquirer.Separator(),
             'update an employee role',
             new inquirer.Separator(),
-            'update employee managers',
-            'view employees by manager',
-            'view employees by department',
             'delete department',
             'delete role',
             'delete employee',
@@ -251,17 +270,29 @@ function promptMenu() {
                         .then((roleList) => addEmployee(roleList))
                     break;
                 case 'update an employee role':
-                    //updateEployeeRole()
+                    Role.findAll()
+                        .then(roles => {
+                            const roleList = roles.map(item => {
+                                return { name: item.title, value: item.id };
+                            });
+                            return roleList;
+                        })
+                        .then(roleList => {
+                            Employee.findAll()
+                            .then(employees => {
+                                const employeeList = employees.map(item => {
+                                    return { name: item.first_name.concat(' ', item.last_name) , value: item.id };
+                                   });
+                                   
+                                return ([roleList,employeeList]);
+                            })
+                            .then((lists) => {
+                                updateEmployeeRole(lists[0],lists[1])
+                            })
+                        })
+                        
                     break;
-                case 'update employee managers':
-                    //updateEmployeeManager();
-                    break;
-                case 'view employees by manager':
-                    //viewEmployeesByManager()
-                    break;
-                case 'view employees by department':
-                    //viewEmployeesByDepartment()
-                    break;
+                
                 case 'delete department':
                     Department.findAll()
                         .then(departments => {
