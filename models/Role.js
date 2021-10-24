@@ -18,7 +18,9 @@ class Role {
     }
 
     static async findAll() {
-        const sql = `SELECT * FROM roles;`
+        const sql = `SELECT roles.id, roles.title, roles.salary,departments.name AS department FROM roles 
+        LEFT JOIN departments 
+        ON roles.department_id = departments.id;`
         const [result,_] = await db.execute(sql);
         return  result;
     }
